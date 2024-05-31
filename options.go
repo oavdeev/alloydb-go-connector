@@ -44,6 +44,7 @@ type dialerConfig struct {
 	tokenSource    oauth2.TokenSource
 	userAgents     []string
 	useIAMAuthN    bool
+	dialerID       string
 	// err tracks any dialer options that may have failed.
 	err error
 }
@@ -160,6 +161,12 @@ func WithDialFunc(dial func(ctx context.Context, network, addr string) (net.Conn
 func WithIAMAuthN() Option {
 	return func(d *dialerConfig) {
 		d.useIAMAuthN = true
+	}
+}
+
+func WithDialerId(id string) Option {
+	return func(d *dialerConfig) {
+		d.dialerID = id
 	}
 }
 

@@ -163,6 +163,11 @@ func NewDialer(ctx context.Context, opts ...Option) (*Dialer, error) {
 		opt(&dialCfg)
 	}
 
+	dialerID := cfg.dialerID
+	if dialerID == "" {
+		dialerID = uuid.New().String()
+	}
+
 	if err := trace.InitMetrics(); err != nil {
 		return nil, err
 	}
@@ -172,7 +177,7 @@ func NewDialer(ctx context.Context, opts ...Option) (*Dialer, error) {
 		refreshTimeout: cfg.refreshTimeout,
 		client:         client,
 		defaultDialCfg: dialCfg,
-		dialerID:       uuid.New().String(),
+		dialerID:       dialerID,
 		dialFunc:       cfg.dialFunc,
 		useIAMAuthN:    cfg.useIAMAuthN,
 		iamTokenSource: ts,
